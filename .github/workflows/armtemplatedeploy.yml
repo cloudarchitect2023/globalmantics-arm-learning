@@ -3,6 +3,9 @@
 name: armtemplateDeployment
 
 on:
+  push:
+    branches:
+      - main
  workflow_dispatch:
 
 jobs:
@@ -21,3 +24,9 @@ jobs:
         uses: Azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy Resource Group rg-githubactions with Azure CLI
+        uses: Azure/cli@v2.1.0
+        with: 
+          inlinescript: 
+            az deployment sub create --location "eastus" --template-file ./arm-templates/resourcegroup.json
